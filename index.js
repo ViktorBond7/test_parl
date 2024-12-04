@@ -53,6 +53,9 @@ function solution1(expenses) {
 }
 
 function solution2(expenses) {
+  // Plusy: Szybsze przechodzenie przez miesiące przy dużej liczbie wejść.
+  // Niedogodności: Nieco trudniejszy do wdrożenia.
+
   const result = {};
 
   for (const [yearMonth, days] of Object.entries(expenses)) {
