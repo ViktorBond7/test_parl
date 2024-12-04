@@ -23,7 +23,7 @@ const expenses = {
 };
 
 function solution1(expenses) {
-  const result = {};
+  let totalExpenses = 0;
 
   for (const [yearMonth, days] of Object.entries(expenses)) {
     let firstSunday = null;
@@ -31,61 +31,24 @@ function solution1(expenses) {
     for (let day = 1; day <= 7; day++) {
       const [year, month] = yearMonth.split("-").map(Number);
       const date = new Date(year, month - 1, day);
-
       if (date.getDay() === 0) {
-        firstSunday = String(day).padStart(2, "0");
-
+        firstSunday = day;
         break;
       }
     }
 
-    if (firstSunday && days[firstSunday]) {
-      const dailyExpenses = days[firstSunday];
-      const totalExpenses = Object.values(dailyExpenses)
-        .flat()
-        .reduce((sum, value) => sum + value, 0);
-
-      result[yearMonth] = totalExpenses;
-    }
-  }
-
-  return result;
-}
-
-function solution2(expenses) {
-  // Plusy: Szybsze przechodzenie przez miesiące przy dużej liczbie wejść.
-  // Niedogodności: Nieco trudniejszy do wdrożenia.
-
-  const result = {};
-
-  for (const [yearMonth, days] of Object.entries(expenses)) {
-    const sundayCandidates = [];
-
-    for (const day of Object.keys(days)) {
-      const [year, month] = yearMonth.split("-").map(Number);
-      const date = new Date(year, month - 1, Number(day));
-
-      if (date.getDay() === 0) {
-        sundayCandidates.push(day);
+    if (firstSunday) {
+      for (let day = 1; day <= firstSunday; day++) {
+        const dayKey = String(day).padStart(2, "0");
+        if (days[dayKey]) {
+          const dailyExpenses = Object.values(days[dayKey]).flat();
+          totalExpenses += dailyExpenses.reduce((sum, value) => sum + value, 0);
+        }
       }
     }
-
-    if (sundayCandidates.length > 0) {
-      const firstSunday = sundayCandidates.reduce((min, d) =>
-        d < min ? d : min
-      );
-
-      const dailyExpenses = days[firstSunday];
-      const totalExpenses = Object.values(dailyExpenses)
-        .flat()
-        .reduce((sum, value) => sum + value, 0);
-
-      result[yearMonth] = totalExpenses;
-    }
   }
 
-  return result;
+  return Number(totalExpenses.toFixed(2));
 }
 
 console.log(solution1(expenses));
-console.log(solution2(expenses));
