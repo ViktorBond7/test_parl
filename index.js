@@ -1,110 +1,88 @@
-// TODO: ЗАДАЧА 1 на LocalStorage =========================================
+`use strict`;
+const expenses = {
+  "2023-01": {
+    "01": {
+      food: [22.11, 43, 11.72, 2.2, 36.29, 2.5, 19],
+      fuel: [210.22],
+    },
+    "09": {
+      food: [11.9],
+      fuel: [190.22],
+    },
+  },
+  "2023-03": {
+    "07": {
+      food: [20, 11.9, 30.2, 11.9],
+    },
+    "04": {
+      food: [10.2, 11.5, 2.5],
+      fuel: [],
+    },
+  },
+  "2023-04": {},
+};
 
-// Створи перелік справ.
-// Є інпут, який вводиться назва завдання.
-// Після натискання на кнопку "Додати" завдання додається до списку #list.
-// Поруч із кожним завданням знаходиться кнопка "Видалити", щоб можна було
-// Забрати завдання зі списку.
-// Список із завданнями має бути доступним після перезавантаження сторінки.
-// const taskFormRef = document.querySelector("#task-form");
-// const taskListRef = document.querySelector("#task-list");
-// const taskNameRef = document.querySelector('input[name="taskName"]');
+function solution1(expenses) {
+  const result = {};
 
-// taskFormRef.addEventListener("submit", addtask);
+  for (const [yearMonth, days] of Object.entries(expenses)) {
+    let firstSunday = null;
 
-// let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    for (let day = 1; day <= 7; day++) {
+      const [year, month] = yearMonth.split("-").map(Number);
+      const date = new Date(year, month - 1, day);
 
-// function render() {
-//   taskListRef.innerHTML = "";
-//   tasks.forEach((task, i) => {
-//     const li = document.createElement("li");
-//     li.innerText = task;
-//     const button = document.createElement("button");
-//     button.innerText = "delete";
-//     button.dataset.index = i;
-//     button.addEventListener("click", deleteTask);
-//     li.appendChild(button);
-//     taskListRef.appendChild(li);
-//   });
-// }
-// function deleteTask(e) {
-//   const taskIndex = e.target.dataset.index;
-//   tasks.splice(taskIndex, 1);
-//   render();
-//   saveTasks();
-// }
-// function addtask(e) {
-//   e.preventDefault();
+      if (date.getDay() === 0) {
+        firstSunday = String(day).padStart(2, "0");
 
-//   const task = taskNameRef.value.trim();
-//   if (task !== "") {
-//     tasks.push(task);
-//     taskNameRef.value = "";
-//     render();
-//     saveTasks();
-//   }
-// }
-// function saveTasks() {
-//   localStorage.setItem("tasks", JSON.stringify(tasks));
-// }
-// render();
+        break;
+      }
+    }
 
-// TODO: ЗАДАЧА 2  на LocalStorage =========================================
+    if (firstSunday && days[firstSunday]) {
+      const dailyExpenses = days[firstSunday];
+      const totalExpenses = Object.values(dailyExpenses)
+        .flat()
+        .reduce((sum, value) => sum + value, 0);
 
-// Зробити перемикач теми. Зберігати тему у локальному сховище.
-// При перезавантаженні сторінки перевіряти сховище та ставити тему, яка там вказана.
-// Додати класи для змін тем
+      result[yearMonth] = totalExpenses;
+    }
+  }
 
-// const checkBox = document.querySelector("#checkbox");
-// const body = document.querySelector("body");
-
-// const themeKey = "theme";
-// const lightTheme = "light-theme";
-// const darkTheme = "dark-theme";
-// const getTheme = localStorage.getItem(themeKey);
-
-// switch (getTheme) {
-//   case darkTheme:
-//     body.classList.add("dark");
-//     checkBox.checked = true;
-//     break;
-
-//   case lightTheme:
-//     body.classList.add("light");
-//     checkBox.checked = false;
-//     break;
-
-//   default:
-//     body.classList.add("light");
-//     checkBox.checked = false;
-//     break;
-// }
-
-// checkBox.addEventListener("click", () => {
-//   if (checkBox.checked === false) {
-//     localStorage.setItem(themeKey, lightTheme);
-//     body.classList.add("light");
-//     body.classList.remove("dark");
-//   }
-//   if (checkBox.checked === true) {
-//     localStorage.setItem(themeKey, darkTheme);
-//     body.classList.add("dark");
-//     body.classList.remove("light");
-//   }
-// });
-
-// TODO: ЗАДАЧА 3 на обіцянки (Promise) ====================================
-
-// Перероби функцію на проміс таким чином, щоб проміс повертав значення
-// через 2 секунди після виклику функції
-
-function greet() {
-  return new Promise((res) => {
-    setTimeout(() => {
-      res("Hello world 👋");
-    }, 3000);
-  });
+  return result;
 }
-greet()
-  .then((value) => console.log(value))
-  .catch((err) => console.log(err));
+
+function solution2(expenses) {
+  const result = {};
+
+  for (const [yearMonth, days] of Object.entries(expenses)) {
+    const sundayCandidates = [];
+
+    for (const day of Object.keys(days)) {
+      const [year, month] = yearMonth.split("-").map(Number);
+      const date = new Date(year, month - 1, Number(day));
+
+      if (date.getDay() === 0) {
+        sundayCandidates.push(day);
+      }
+    }
+
+    if (sundayCandidates.length > 0) {
+      const firstSunday = sundayCandidates.reduce((min, d) =>
+        d < min ? d : min
+      );
+
+      const dailyExpenses = days[firstSunday];
+      const totalExpenses = Object.values(dailyExpenses)
+        .flat()
+        .reduce((sum, value) => sum + value, 0);
+
+      result[yearMonth] = totalExpenses;
+    }
+  }
+
+  return result;
+}
+
+console.log(solution1(expenses));
+console.log(solution2(expenses));
