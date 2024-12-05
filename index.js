@@ -30,6 +30,7 @@ function solution1(expenses) {
 
     for (let day = 1; day <= 7; day++) {
       const [year, month] = yearMonth.split("-").map(Number);
+
       const date = new Date(year, month - 1, day);
       if (date.getDay() === 0) {
         firstSunday = day;
@@ -51,4 +52,25 @@ function solution1(expenses) {
   return Number(totalExpenses.toFixed(2));
 }
 
-console.log(solution1(expenses));
+// console.log(solution1(expenses));
+// alert("1"[0]);
+// let x = 5;
+// alert(x++);
+// let f = function g() {
+//   return 23;
+// };
+
+// alert(typeof g());
+// alert(str); // ?
+// var str = "Hello";
+// let obj = { 1: 0, 1: 1, 0: 2 };
+
+// alert(obj["1"]);
+// for (let i = 0; i < 10; i++) {
+//   setTimeout(function () {
+//     console.log(i);
+//   }, 100);
+// }
+let a = (1, 5 - 1) * 2;
+
+alert(a);
