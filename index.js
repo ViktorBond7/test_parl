@@ -53,24 +53,14 @@ function solution1(expenses) {
 }
 
 // console.log(solution1(expenses));
-// alert("1"[0]);
-// let x = 5;
-// alert(x++);
-// let f = function g() {
-//   return 23;
-// };
 
-// alert(typeof g());
-// alert(str); // ?
-// var str = "Hello";
-// let obj = { 1: 0, 1: 1, 0: 2 };
+const reting = document.querySelector(".page");
 
-// alert(obj["1"]);
-// for (let i = 0; i < 10; i++) {
-//   setTimeout(function () {
-//     console.log(i);
-//   }, 100);
-// }
-let a = (1, 5 - 1) * 2;
+const color = (content, number, className) => {
+  const coloredPart = content.slice(0, number);
+  const remainingPart = content.slice(number);
 
-alert(a);
+  return `<span class="${className}">${coloredPart}</span>${remainingPart}`;
+};
+
+reting.innerHTML = color(reting.textContent, 3, "span");
