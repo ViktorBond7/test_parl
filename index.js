@@ -54,13 +54,85 @@ function solution1(expenses) {
 
 // console.log(solution1(expenses));
 
-const reting = document.querySelector(".page");
+const company = {
+  name: "TechCorp",
+  founded: 2005,
+  employees: [
+    {
+      id: 1,
+      name: "Alice Johnson",
+      position: "Software Engineer",
+      skills: ["JavaScript", "React", "Node.js"],
+      performance: {
+        lastYear: "Excellent",
+        currentYear: "Good",
+      },
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      position: "Product Manager",
+      skills: ["Agile", "Scrum", "Leadership"],
+      performance: {
+        lastYear: "Good",
+        currentYear: "Excellent",
+      },
+    },
+  ],
+  departments: {
+    development: {
+      teamName: "Dev Wizards",
+      head: "Alice Johnson",
+      projects: [
+        {
+          projectName: "AI Assistant",
+          budget: 500000,
+          status: "In Progress",
+        },
+        {
+          projectName: "E-commerce Platform",
+          budget: 750000,
+          status: "Completed",
+        },
+      ],
+    },
+    marketing: {
+      teamName: "Brand Boosters",
+      head: "Charlie Davis",
+      campaigns: [
+        {
+          campaignName: "Summer Sale",
+          budget: 150000,
+          results: "Successful",
+        },
+        {
+          campaignName: "Social Media Expansion",
+          budget: 100000,
+          results: "Moderate Success",
+        },
+      ],
+    },
+  },
+};
+console.log("typeOf", typeof company);
 
-const color = (content, number, className) => {
-  const coloredPart = content.slice(0, number);
-  const remainingPart = content.slice(number);
+const deepClone = (value) => {
+  if (typeof value !== "object" || value === null) return value;
 
-  return `<span class="${className}">${coloredPart}</span>${remainingPart}`;
+  if (Array.isArray(value)) return value.map(deepClone);
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, value]) => [key, deepClone(value)])
+  );
 };
 
-reting.innerHTML = color(reting.textContent, 3, "span");
+// const spred = { ...company };
+
+const copy = deepClone(company);
+const newhh = structuredClone(company);
+
+newhh.departments.development.head = "ggggg";
+
+console.log("copy", copy.departments.development.head);
+console.log("company", company.departments.development.head);
+console.log("newhh", newhh.departments.development.head);
