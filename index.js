@@ -133,6 +133,40 @@ const newhh = structuredClone(company);
 
 newhh.departments.development.head = "ggggg";
 
-console.log("copy", copy.departments.development.head);
-console.log("company", company.departments.development.head);
-console.log("newhh", newhh.departments.development.head);
+// console.log("copy", copy.departments.development.head);
+// console.log("company", company.departments.development.head);
+// console.log("newhh", newhh.departments.development.head);
+
+const clearLogBtn = document.querySelector(".js-clear");
+const logList = document.querySelector(".log-list");
+let keypressCounter = 1;
+
+document.addEventListener("keydown", logMessage);
+// document.addEventListener("keyup", logMessage);
+clearLogBtn.addEventListener("click", reset);
+
+function logMessage({ type, key, code }) {
+  const markup = `<div class="log-item">
+    <span class="chip">${keypressCounter}</span>
+    <ul>
+      <li><b>Event</b>: ${type}</li>
+      <li><b>Key</b>: ${key}</li>
+      <li><b>Code</b>: ${code}</li>
+    </ul>
+  </div>`;
+
+  logList.insertAdjacentHTML("afterbegin", markup);
+
+  if (type === "keydown") {
+    incrementKeypressCounter();
+  }
+}
+
+function reset() {
+  keypressCounter = 1;
+  logList.innerHTML = "";
+}
+
+function incrementKeypressCounter() {
+  keypressCounter += 1;
+}
