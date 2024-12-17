@@ -145,28 +145,28 @@ document.addEventListener("keydown", logMessage);
 // document.addEventListener("keyup", logMessage);
 clearLogBtn.addEventListener("click", reset);
 
-function logMessage({ type, key, code }) {
-  const markup = `<div class="log-item">
-    <span class="chip">${keypressCounter}</span>
-    <ul>
-      <li><b>Event</b>: ${type}</li>
-      <li><b>Key</b>: ${key}</li>
-      <li><b>Code</b>: ${code}</li>
-    </ul>
-  </div>`;
+// function logMessage({ type, key, code }) {
+//   const markup = `<div class="log-item">
+//     <span class="chip">${keypressCounter}</span>
+//     <ul>
+//       <li><b>Event</b>: ${type}</li>
+//       <li><b>Key</b>: ${key}</li>
+//       <li><b>Code</b>: ${code}</li>
+//     </ul>
+//   </div>`;
 
-  logList.insertAdjacentHTML("afterbegin", markup);
+//   logList.insertAdjacentHTML("afterbegin", markup);
 
-  if (type === "keydown") {
-    incrementKeypressCounter();
-  }
-}
+//   if (type === "keydown") {
+//     incrementKeypressCounter();
+//   }
+// }
 
-function reset() {
-  keypressCounter = 1;
-  logList.innerHTML = "";
-}
+// function reset() {
+//   keypressCounter = 1;
+//   logList.innerHTML = "";
+// }
 
-function incrementKeypressCounter() {
-  keypressCounter += 1;
-}
+// function incrementKeypressCounter() {
+//   keypressCounter += 1;
+// }
